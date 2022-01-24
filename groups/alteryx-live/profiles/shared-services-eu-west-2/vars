@@ -1,0 +1,35 @@
+# Account details
+aws_profile = "shared-services-eu-west-2"
+aws_region  = "eu-west-2"
+aws_account = "shared-services"
+
+# Account shorthand
+account = "shared"
+region  = "euw2"
+
+# Application details
+application             = "alteryx"
+application_environment = "live"
+environment             = "shared-services"
+
+##############################
+# Alteryx Components details #
+##############################
+# Server/Controller
+alteryx_server_instance_type         = "r5.xlarge"
+alteryx_server_instance_count        = 1
+alteryx_server_ami                   = "ami-082ace3b4ab9d3345"
+alteryx_server_private_ip            = "10.44.18.65"
+alteryx_server_storage_gb            = 200
+alteryx_server_additional_storage_gb = 1024
+
+# Worker
+alteryx_worker_instance_type  = "r5.xlarge"
+alteryx_worker_instance_count = 1
+alteryx_worker_ami            = "ami-082ace3b4ab9d3345"
+alteryx_worker_private_ip     = "10.44.18.66"
+alteryx_worker_storage_gb     = 150
+
+
+
+
