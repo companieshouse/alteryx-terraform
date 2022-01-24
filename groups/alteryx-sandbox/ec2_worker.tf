@@ -11,7 +11,7 @@
 
 #   ingress_cidr_blocks = local.internal_cidrs
 #   ingress_rules       = ["rdp-tcp", "rdp-udp"]
-  
+
 #   egress_rules = ["all-all"]
 
 #   tags = merge(

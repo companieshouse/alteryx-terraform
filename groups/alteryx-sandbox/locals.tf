@@ -2,8 +2,8 @@
 # Locals
 # ------------------------------------------------------------------------
 locals {
-  internal_cidrs    = values(data.vault_generic_secret.internal_cidrs.data)
-  alteryx_ec2_data  = data.vault_generic_secret.alteryx_ec2_data.data
+  internal_cidrs   = values(data.vault_generic_secret.internal_cidrs.data)
+  alteryx_ec2_data = data.vault_generic_secret.alteryx_ec2_data.data
 
   kms_keys_data          = data.vault_generic_secret.kms_keys.data
   security_kms_keys_data = data.vault_generic_secret.security_kms_keys.data

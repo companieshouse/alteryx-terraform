@@ -11,7 +11,7 @@ module "alteryx_worker_ec2_security_group" {
 
   ingress_cidr_blocks = local.internal_cidrs
   ingress_rules       = ["rdp-tcp", "rdp-udp"]
-  
+
   egress_rules = ["all-all"]
 
   tags = merge(
@@ -28,19 +28,19 @@ module "alteryx_worker_ec2" {
 
   count = var.alteryx_worker_instance_count
 
-  name                   = "${var.application}-${var.application_environment}-worker"
-  ami                    = var.alteryx_worker_ami
-  instance_type          = var.alteryx_worker_instance_type
-  key_name               = aws_key_pair.alteryx_keypair.key_name
-  monitoring             = var.alteryx_worker_detailed_monitoring
-  get_password_data      = var.alteryx_worker_get_password_data
+  name              = "${var.application}-${var.application_environment}-worker"
+  ami               = var.alteryx_worker_ami
+  instance_type     = var.alteryx_worker_instance_type
+  key_name          = aws_key_pair.alteryx_keypair.key_name
+  monitoring        = var.alteryx_worker_detailed_monitoring
+  get_password_data = var.alteryx_worker_get_password_data
   vpc_security_group_ids = [
     module.alteryx_worker_ec2_security_group.this_security_group_id
   ]
-  subnet_id              = tolist(data.aws_subnet_ids.alteryx.ids)[count.index]
-  iam_instance_profile   = module.alteryx_worker_profile.aws_iam_instance_profile.name
-  ebs_optimized          = var.ebs_optimized
-  private_ip             = var.alteryx_worker_private_ip
+  subnet_id            = tolist(data.aws_subnet_ids.alteryx.ids)[count.index]
+  iam_instance_profile = module.alteryx_worker_profile.aws_iam_instance_profile.name
+  ebs_optimized        = var.ebs_optimized
+  private_ip           = var.alteryx_worker_private_ip
 
   root_block_device = [
     {

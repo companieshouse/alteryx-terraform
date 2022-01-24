@@ -11,7 +11,7 @@ module "alteryx_server_ec2_security_group" {
 
   ingress_cidr_blocks = local.internal_cidrs
   ingress_rules       = ["http-80-tcp", "https-443-tcp", "rdp-tcp", "rdp-udp"]
-  
+
   computed_ingress_with_source_security_group_id = [
     {
       rule                     = "http-80-tcp"
@@ -23,7 +23,7 @@ module "alteryx_server_ec2_security_group" {
     }
   ]
   number_of_computed_ingress_with_source_security_group_id = 2
-  
+
   egress_rules = ["all-all"]
 
   tags = merge(
@@ -40,19 +40,19 @@ module "alteryx_server_ec2" {
 
   count = var.alteryx_server_instance_count
 
-  name                   = "${var.application}-${var.application_environment}-server"
-  ami                    = var.alteryx_server_ami
-  instance_type          = var.alteryx_server_instance_type
-  key_name               = aws_key_pair.alteryx_keypair.key_name
-  monitoring             = var.alteryx_server_detailed_monitoring
-  get_password_data      = var.alteryx_server_get_password_data
+  name              = "${var.application}-${var.application_environment}-server"
+  ami               = var.alteryx_server_ami
+  instance_type     = var.alteryx_server_instance_type
+  key_name          = aws_key_pair.alteryx_keypair.key_name
+  monitoring        = var.alteryx_server_detailed_monitoring
+  get_password_data = var.alteryx_server_get_password_data
   vpc_security_group_ids = [
     module.alteryx_server_ec2_security_group.this_security_group_id
   ]
-  subnet_id              = tolist(data.aws_subnet_ids.alteryx.ids)[count.index]
-  iam_instance_profile   = module.alteryx_server_profile.aws_iam_instance_profile.name
-  ebs_optimized          = var.ebs_optimized
-  private_ip             = var.alteryx_server_private_ip
+  subnet_id            = tolist(data.aws_subnet_ids.alteryx.ids)[count.index]
+  iam_instance_profile = module.alteryx_server_profile.aws_iam_instance_profile.name
+  ebs_optimized        = var.ebs_optimized
+  private_ip           = var.alteryx_server_private_ip
 
   root_block_device = [
     {
