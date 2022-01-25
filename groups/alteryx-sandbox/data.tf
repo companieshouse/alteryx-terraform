@@ -14,6 +14,11 @@ data "aws_subnet_ids" "alteryx" {
   }
 }
 
+data "aws_subnet" "alteryx" {
+  for_each = data.aws_subnet_ids.alteryx.ids
+  id       = each.value
+}
+
 data "vault_generic_secret" "internal_cidrs" {
   path = "aws-accounts/network/internal_cidr_ranges"
 }
