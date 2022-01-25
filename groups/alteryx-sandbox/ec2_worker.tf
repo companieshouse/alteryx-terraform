@@ -37,10 +37,10 @@
 #   vpc_security_group_ids = [
 #     module.alteryx_worker_ec2_security_group.this_security_group_id
 #   ]
-#   subnet_id              = data.aws_subnet_ids.alteryx.ids[count.index +1]
+#   subnet_id            = [for sub in data.aws_subnet.alteryx: sub.id][count.index +1]
 #   iam_instance_profile   = module.alteryx_worker_profile.aws_iam_instance_profile.name
 #   ebs_optimized          = var.ebs_optimized
-#   private_ip             = var.alteryx_worker_private_ip
+#   private_ip           = cidrhost([for sub in data.aws_subnet.alteryx: sub.cidr_block][count.index +1], 6)
 
 #   root_block_device = [
 #     {
