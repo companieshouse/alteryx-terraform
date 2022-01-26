@@ -34,6 +34,22 @@ module "alteryx_server_ec2_security_group" {
   )
 }
 
+resource "aws_cloudwatch_log_group" "alteryx_server" {
+  for_each = local.alteryx_server_cw_logs
+
+  name              = each.value["log_group_name"]
+  retention_in_days = lookup(each.value, "log_group_retention", var.default_log_group_retention_in_days)
+  kms_key_id        = lookup(each.value, "kms_key_id", local.logs_kms_key_arn)
+
+  tags = merge(
+    local.default_tags,
+    map(
+      "Name", "${var.application}-${var.application_environment}-server",
+      "ServiceTeam", "Data",
+    )
+  )
+}
+
 module "alteryx_server_ec2" {
   source  = "terraform-aws-modules/ec2-instance/aws"
   version = "2.19.0"
@@ -60,7 +76,7 @@ module "alteryx_server_ec2" {
       volume_size           = var.alteryx_server_storage_gb
       volume_type           = var.volume_type
       encrypted             = var.ebs_encrypted
-      kms_key_id            = data.aws_kms_key.ebs.arn
+      kms_key_id            = local.ebs_kms_key_arn
     }
   ]
 
@@ -71,7 +87,7 @@ module "alteryx_server_ec2" {
       encrypted             = var.ebs_encrypted
       volume_size           = var.alteryx_server_additional_storage_gb
       volume_type           = var.volume_type
-      kms_key_id            = data.aws_kms_key.ebs.arn
+      kms_key_id            = local.ebs_kms_key_arn
     }
   ]
 

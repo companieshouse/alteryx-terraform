@@ -69,6 +69,12 @@ variable "domain_name" {
   default     = "*.companieshouse.gov.uk"
 }
 
+variable "default_log_group_retention_in_days" {
+  type        = number
+  default     = 365
+  description = "Total days to retain logs in CloudWatch log group if not specified for specific logs"
+}
+
 # ------------------------------------------------------------------------------
 # EBS Variables
 # ------------------------------------------------------------------------------
@@ -142,6 +148,12 @@ variable "alteryx_server_get_password_data" {
   default     = false
 }
 
+variable "alteryx_server_cw_logs" {
+  type        = map(any)
+  description = "Map of log file information; used to create log groups, IAM permissions and passed to the application to configure remote logging"
+  default     = {}
+}
+
 # ------------------------------------------------------------------------------
 # Alteryx Worker EC2 Variables
 # ------------------------------------------------------------------------------
@@ -180,4 +192,10 @@ variable "alteryx_worker_get_password_data" {
   description = "If true, wait for password data to become available and retrieve it."
   type        = bool
   default     = false
+}
+
+variable "alteryx_worker_cw_logs" {
+  type        = map(any)
+  description = "Map of log file information; used to create log groups, IAM permissions and passed to the application to configure remote logging"
+  default     = {}
 }
