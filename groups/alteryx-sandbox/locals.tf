@@ -17,12 +17,11 @@ locals {
   internal_fqdn = "${replace(var.aws_account, "-", "")}.aws.internal"
 
   #For each log map passed, add an extra kv for the log group name
-  alteryx_server_cw_logs    = { for log, map in var.alteryx_server_cw_logs : log => merge(map, { "log_group_name" = "${var.application}-chips-estor-${log}" }) }
+  alteryx_server_cw_logs    = { for log, map in var.alteryx_server_cw_logs : log => merge(map, { "log_group_name" = "${var.application}-${var.application_environment}-server-${log}" }) }
   alteryx_server_log_groups = compact([for log, map in local.alteryx_server_cw_logs : lookup(map, "log_group_name", "")])
 
-  alteryx_worker_cw_logs    = { for log, map in var.alteryx_worker_cw_logs : log => merge(map, { "log_group_name" = "${var.application}-chips-estor-${log}" }) }
+  alteryx_worker_cw_logs    = { for log, map in var.alteryx_worker_cw_logs : log => merge(map, { "log_group_name" = "${var.application}-${var.application_environment}-worker-${log}" }) }
   alteryx_worker_log_groups = compact([for log, map in local.alteryx_worker_cw_logs : lookup(map, "log_group_name", "")])
-
   default_tags = {
     Terraform   = "true"
     Application = upper(var.application)
