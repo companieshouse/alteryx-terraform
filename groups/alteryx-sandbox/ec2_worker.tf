@@ -40,7 +40,7 @@ module "alteryx_worker_ec2" {
   subnet_id            = [for sub in data.aws_subnet.alteryx : sub.id][count.index + 1]
   iam_instance_profile = module.alteryx_worker_profile.aws_iam_instance_profile.name
   ebs_optimized        = var.ebs_optimized
-  private_ip           = cidrhost([for sub in data.aws_subnet.alteryx : sub.cidr_block][count.index + 1], 6)
+  private_ip           = cidrhost([for sub in data.aws_subnet.alteryx : sub.cidr_block][count.index + 1], 5)
 
   root_block_device = [
     {
