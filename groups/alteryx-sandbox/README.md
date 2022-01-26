@@ -25,6 +25,9 @@ Worker code commented out but can be reinstated if a worker node is required for
 | <a name="module_alteryx_server_ec2"></a> [alteryx\_server\_ec2](#module\_alteryx\_server\_ec2) | terraform-aws-modules/ec2-instance/aws | 2.19.0 |
 | <a name="module_alteryx_server_ec2_security_group"></a> [alteryx\_server\_ec2\_security\_group](#module\_alteryx\_server\_ec2\_security\_group) | terraform-aws-modules/security-group/aws | ~> 3.0 |
 | <a name="module_alteryx_server_profile"></a> [alteryx\_server\_profile](#module\_alteryx\_server\_profile) | git@github.com:companieshouse/terraform-modules//aws/instance_profile?ref=tags/1.0.59 |  |
+| <a name="module_alteryx_worker_ec2"></a> [alteryx\_worker\_ec2](#module\_alteryx\_worker\_ec2) | terraform-aws-modules/ec2-instance/aws | 2.19.0 |
+| <a name="module_alteryx_worker_ec2_security_group"></a> [alteryx\_worker\_ec2\_security\_group](#module\_alteryx\_worker\_ec2\_security\_group) | terraform-aws-modules/security-group/aws | ~> 3.0 |
+| <a name="module_alteryx_worker_profile"></a> [alteryx\_worker\_profile](#module\_alteryx\_worker\_profile) | git@github.com:companieshouse/terraform-modules//aws/instance_profile?ref=tags/1.0.59 |  |
 
 ## Resources
 
@@ -32,6 +35,7 @@ Worker code commented out but can be reinstated if a worker node is required for
 |------|------|
 | [aws_key_pair.alteryx_keypair](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/key_pair) | resource |
 | [aws_route53_record.alteryx_server](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
+| [aws_route53_record.alteryx_worker](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
 | [aws_acm_certificate.acm_cert](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/acm_certificate) | data source |
 | [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
 | [aws_kms_key.ebs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/kms_key) | data source |
@@ -85,4 +89,5 @@ Worker code commented out but can be reinstated if a worker node is required for
 | Name | Description |
 |------|-------------|
 | <a name="output_alteryx_server_ec2_address_internal"></a> [alteryx\_server\_ec2\_address\_internal](#output\_alteryx\_server\_ec2\_address\_internal) | n/a |
+| <a name="output_alteryx_worker_ec2_address_internal"></a> [alteryx\_worker\_ec2\_address\_internal](#output\_alteryx\_worker\_ec2\_address\_internal) | n/a |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
