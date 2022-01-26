@@ -8,6 +8,19 @@ module "alteryx_server_profile" {
     local.ssm_kms_key_id
   ]
   s3_buckets_write = [local.session_manager_bucket_name]
+  cw_log_group_arns = length(local.alteryx_server_log_groups) > 0 ? flatten([
+    formatlist(
+      "arn:aws:logs:%s:%s:log-group:%s:*:*",
+      var.aws_region,
+      data.aws_caller_identity.current.account_id,
+      local.alteryx_server_log_groups
+    ),
+    formatlist("arn:aws:logs:%s:%s:log-group:%s:*",
+      var.aws_region,
+      data.aws_caller_identity.current.account_id,
+      local.alteryx_server_log_groups
+    ),
+  ]) : null
 }
 
 module "alteryx_worker_profile" {
@@ -20,4 +33,17 @@ module "alteryx_worker_profile" {
     local.ssm_kms_key_id
   ]
   s3_buckets_write = [local.session_manager_bucket_name]
+  cw_log_group_arns = length(local.alteryx_worker_log_groups) > 0 ? flatten([
+    formatlist(
+      "arn:aws:logs:%s:%s:log-group:%s:*:*",
+      var.aws_region,
+      data.aws_caller_identity.current.account_id,
+      local.alteryx_worker_log_groups
+    ),
+    formatlist("arn:aws:logs:%s:%s:log-group:%s:*",
+      var.aws_region,
+      data.aws_caller_identity.current.account_id,
+      local.alteryx_worker_log_groups
+    ),
+  ]) : null
 }

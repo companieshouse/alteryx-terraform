@@ -31,6 +31,8 @@
 
 | Name | Type |
 |------|------|
+| [aws_cloudwatch_log_group.alteryx_server](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_group) | resource |
+| [aws_cloudwatch_log_group.alteryx_worker](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_group) | resource |
 | [aws_key_pair.alteryx_keypair](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/key_pair) | resource |
 | [aws_route53_record.alteryx_server](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
 | [aws_route53_record.alteryx_worker](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
@@ -72,10 +74,13 @@
 | <a name="input_region"></a> [region](#input\_region) | Short version of the name of the AWS region in which resources will be administered | `string` | n/a | yes |
 | <a name="input_vault_password"></a> [vault\_password](#input\_vault\_password) | Password for connecting to Vault - usually supplied through TF\_VARS | `string` | n/a | yes |
 | <a name="input_vault_username"></a> [vault\_username](#input\_vault\_username) | Username for connecting to Vault - usually supplied through TF\_VARS | `string` | n/a | yes |
+| <a name="input_alteryx_server_cw_logs"></a> [alteryx\_server\_cw\_logs](#input\_alteryx\_server\_cw\_logs) | Map of log file information; used to create log groups, IAM permissions and passed to the application to configure remote logging | `map(any)` | `{}` | no |
 | <a name="input_alteryx_server_detailed_monitoring"></a> [alteryx\_server\_detailed\_monitoring](#input\_alteryx\_server\_detailed\_monitoring) | If true, the launched EC2 instance will have detailed monitoring enabled | `bool` | `false` | no |
 | <a name="input_alteryx_server_get_password_data"></a> [alteryx\_server\_get\_password\_data](#input\_alteryx\_server\_get\_password\_data) | If true, wait for password data to become available and retrieve it. | `bool` | `false` | no |
+| <a name="input_alteryx_worker_cw_logs"></a> [alteryx\_worker\_cw\_logs](#input\_alteryx\_worker\_cw\_logs) | Map of log file information; used to create log groups, IAM permissions and passed to the application to configure remote logging | `map(any)` | `{}` | no |
 | <a name="input_alteryx_worker_detailed_monitoring"></a> [alteryx\_worker\_detailed\_monitoring](#input\_alteryx\_worker\_detailed\_monitoring) | If true, the launched EC2 instance will have detailed monitoring enabled | `bool` | `false` | no |
 | <a name="input_alteryx_worker_get_password_data"></a> [alteryx\_worker\_get\_password\_data](#input\_alteryx\_worker\_get\_password\_data) | If true, wait for password data to become available and retrieve it. | `bool` | `false` | no |
+| <a name="input_default_log_group_retention_in_days"></a> [default\_log\_group\_retention\_in\_days](#input\_default\_log\_group\_retention\_in\_days) | Total days to retain logs in CloudWatch log group if not specified for specific logs | `number` | `365` | no |
 | <a name="input_delete_on_termination"></a> [delete\_on\_termination](#input\_delete\_on\_termination) | EBS delete on termination | `string` | `"false"` | no |
 | <a name="input_domain_name"></a> [domain\_name](#input\_domain\_name) | The name of the environment | `string` | `"*.companieshouse.gov.uk"` | no |
 | <a name="input_ebs_encrypted"></a> [ebs\_encrypted](#input\_ebs\_encrypted) | EBS encrypted | `string` | `"true"` | no |
