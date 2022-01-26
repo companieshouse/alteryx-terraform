@@ -12,17 +12,17 @@ module "alteryx_server_ec2_security_group" {
   ingress_cidr_blocks = local.internal_cidrs
   ingress_rules       = ["http-80-tcp", "https-443-tcp", "rdp-tcp", "rdp-udp"]
 
-  # computed_ingress_with_source_security_group_id = [
-  #   {
-  #     rule                     = "http-80-tcp"
-  #     source_security_group_id = module.alteryx_worker_ec2_security_group.this_security_group_id
-  #   },
-  #   {
-  #     rule                     = "https-443-tcp"
-  #     source_security_group_id = module.alteryx_worker_ec2_security_group.this_security_group_id
-  #   }
-  # ]
-  # number_of_computed_ingress_with_source_security_group_id = 2
+  computed_ingress_with_source_security_group_id = [
+    {
+      rule                     = "http-80-tcp"
+      source_security_group_id = module.alteryx_worker_ec2_security_group.this_security_group_id
+    },
+    {
+      rule                     = "https-443-tcp"
+      source_security_group_id = module.alteryx_worker_ec2_security_group.this_security_group_id
+    }
+  ]
+  number_of_computed_ingress_with_source_security_group_id = 2
 
   egress_rules = ["all-all"]
 
