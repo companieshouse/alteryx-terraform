@@ -97,7 +97,7 @@ module "alteryx_server_ec2" {
       "Name", "${var.application}-${var.application_environment}-server",
       "ServiceTeam", "Data",
       "AlteryxRole", "${var.application}-${var.application_environment}-server",
-      "Backup", "true",
+      "Backup", "backup21",
       "BackupApp", var.application
     )
   )
@@ -108,7 +108,7 @@ module "alteryx_server_ec2" {
       "Name", "${var.application}-${var.application_environment}-server",
       "ServiceTeam", "Data",
       "AlteryxRole", "${var.application}-${var.application_environment}-server",
-      "Backup", "true",
+      "Backup", "backup21",
       "BackupApp", var.application
     )
   )
