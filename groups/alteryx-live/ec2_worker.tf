@@ -74,7 +74,7 @@ module "alteryx_worker_ec2" {
       "Name", "${var.application}-${var.application_environment}-worker",
       "ServiceTeam", "Data",
       "AlteryxRole", "${var.application}-${var.application_environment}-worker",
-      "Backup", "true",
+      "Backup", "backup21",
       "BackupApp", var.application
     )
   )
@@ -85,7 +85,7 @@ module "alteryx_worker_ec2" {
       "Name", "${var.application}-${var.application_environment}-worker",
       "ServiceTeam", "Data",
       "AlteryxRole", "${var.application}-${var.application_environment}-worker",
-      "Backup", "true",
+      "Backup", "backup21",
       "BackupApp", var.application
     )
   )
