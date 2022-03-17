@@ -11,6 +11,22 @@ module "alteryx_worker_ec2_security_group" {
 
   ingress_cidr_blocks = local.internal_cidrs
   ingress_rules       = ["rdp-tcp", "rdp-udp"]
+  ingress_with_cidr_blocks = [
+    {
+      from_port   = 135
+      to_port     = 135
+      protocol    = "tcp"
+      description = "WMI Access"
+      cidr_blocks = join(",", local.azure_dc_cidrs)
+    },
+    {
+      from_port   = 49152
+      to_port     = 65535
+      protocol    = "tcp"
+      description = "WMI Access"
+      cidr_blocks = join(",", local.azure_dc_cidrs)
+    }
+  ]
 
   egress_rules = ["all-all"]
 
