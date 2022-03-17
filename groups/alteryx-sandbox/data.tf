@@ -27,7 +27,7 @@ data "vault_generic_secret" "alteryx_ec2_data" {
   path = "applications/${var.aws_account}-${var.aws_region}/${var.application}/ec2"
 }
 
-data "vault_generic_secret" "alteryx_dc_cidrs" {
+data "vault_generic_secret" "azure_dc_cidrs" {
   path = "applications/${var.aws_account}-${var.aws_region}/${var.application}/azure_dc"
 }
 
