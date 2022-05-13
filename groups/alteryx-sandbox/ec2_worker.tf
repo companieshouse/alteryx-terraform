@@ -9,8 +9,8 @@ module "alteryx_worker_ec2_security_group" {
   description = "Security group for the ${var.application_environment} ${var.application} Worker EC2"
   vpc_id      = data.aws_vpc.vpc.id
 
-  ingress_cidr_blocks      = local.internal_cidrs
-  ingress_rules            = ["rdp-tcp", "rdp-udp"]
+  ingress_cidr_blocks = local.internal_cidrs
+  ingress_rules       = ["rdp-tcp", "rdp-udp"]
   ingress_with_cidr_blocks = [
     {
       from_port   = 135
