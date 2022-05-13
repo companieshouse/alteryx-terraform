@@ -21,6 +21,17 @@ module "alteryx_server_profile" {
       local.alteryx_server_log_groups
     ),
   ]) : null
+
+  custom_statements = [
+    {
+      sid       = "CloudwatchMetrics"
+      effect    = "Allow"
+      resources = ["*"]
+      actions = [
+        "cloudwatch:PutMetricData"
+      ]
+    }
+  ]
 }
 
 module "alteryx_worker_profile" {
@@ -46,4 +57,15 @@ module "alteryx_worker_profile" {
       local.alteryx_worker_log_groups
     ),
   ]) : null
+
+  custom_statements = [
+    {
+      sid       = "CloudwatchMetrics"
+      effect    = "Allow"
+      resources = ["*"]
+      actions = [
+        "cloudwatch:PutMetricData"
+      ]
+    }
+  ]
 }
