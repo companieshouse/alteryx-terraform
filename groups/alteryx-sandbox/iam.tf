@@ -30,7 +30,15 @@ module "alteryx_server_profile" {
       actions = [
         "cloudwatch:PutMetricData"
       ]
-    }
+    },
+    {
+      sid     = "AllowListLogBucket"
+      effect  = "Allow"
+      resources = ["${data.aws_s3_bucket.resources.arn}/"]
+      actions = [
+        "s3:ListBucket"
+      ]
+    },
   ]
 }
 
