@@ -34,7 +34,10 @@ module "alteryx_server_profile" {
     {
       sid     = "S3AllowListGet"
       effect  = "Allow"
-      resources = ["${data.aws_s3_bucket.resources.arn}/"]
+      resources = [
+        "${data.aws_s3_bucket.resources.arn}",
+        "${data.aws_s3_bucket.resources.arn}/*"
+      ]
       actions = [
         "s3:ListBucket",
         "s3:GetObject"
