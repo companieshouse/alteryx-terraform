@@ -18,7 +18,7 @@ environment             = "shared-services"
 # Server/Controller
 alteryx_server_instance_type         = "r5.xlarge"
 alteryx_server_instance_count        = 1
-alteryx_server_ami                   = "ami-082ace3b4ab9d3345"
+alteryx_server_ami                   = "ami-076cfc43ed9964d43"
 alteryx_server_private_ip            = "10.44.18.132"
 alteryx_server_storage_gb            = 200
 alteryx_server_additional_storage_gb = 1024
