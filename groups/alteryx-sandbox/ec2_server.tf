@@ -25,6 +25,13 @@ module "alteryx_server_ec2_security_group" {
       protocol    = "tcp"
       description = "WMI Access"
       cidr_blocks = join(",", local.azure_dc_cidrs)
+    },
+    {
+      from_port   = 5986
+      to_port     = 5986
+      protocol    = "tcp"
+      description = "Ansible Access"
+      cidr_blocks = join(",", local.internal_cidrs)
     }
   ]
 
