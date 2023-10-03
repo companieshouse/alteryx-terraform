@@ -78,6 +78,18 @@ module "alteryx_worker_profile" {
       actions = [
         "cloudwatch:PutMetricData"
       ]
-    }
+    },
+    {
+      sid     = "S3AllowListGet"
+      effect  = "Allow"
+      resources = [
+        "${data.aws_s3_bucket.resources.arn}",
+        "${data.aws_s3_bucket.resources.arn}/*"
+      ]
+      actions = [
+        "s3:ListBucket",
+        "s3:GetObject"
+      ]
+    },
   ]
 }
