@@ -117,8 +117,15 @@ variable "alteryx_server_instance_count" {
 }
 
 variable "alteryx_server_ami" {
+  default     = ""
   type        = string
-  description = "ID of the AMI to use for alteryxlication server"
+  description = "ID of the AMI to use for alteryxlication server.This will take precedence if provided"
+}
+
+variable "alteryx_server_ami_version_pattern" {
+  default     = "\\d.\\d.\\d"
+  description = "The pattern with which to match alteryx-server AMIs. Used when no AMI ID is provided"
+  type        = string
 }
 
 variable "alteryx_server_private_ip" {
@@ -167,9 +174,17 @@ variable "alteryx_worker_instance_count" {
   type        = string
 }
 
+
 variable "alteryx_worker_ami" {
+  default     = ""
   type        = string
-  description = "ID of the AMI to use for alteryxlication worker"
+  description = "ID of the AMI to use for alteryxlication worker. This will take precedence if provided"
+}
+
+variable "alteryx_worker_ami_version_pattern" {
+  default     = "\\d.\\d.\\d"
+  description = "The pattern with which to match alteryx-worker AMIs. Used when no AMI ID is provided"
+  type        = string
 }
 
 variable "alteryx_worker_private_ip" {
