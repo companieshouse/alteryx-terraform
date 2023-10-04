@@ -61,7 +61,7 @@ data "aws_s3_bucket" "resources" {
 }
 
 data "aws_ami" "alteryx_server_ami" {
-  count = var.backend_ami_id == "" ? 1 : 0
+  count = var.alteryx_server_ami_id == "" ? 1 : 0
 
   most_recent = true
   name_regex  = "^alteryx-server-ami-${var.alteryx_server_ami_version_pattern}$"
@@ -69,7 +69,7 @@ data "aws_ami" "alteryx_server_ami" {
 }
 
 data "aws_ami" "alteryx_worker_ami" {
-  count = var.backend_ami_id == "" ? 1 : 0
+  count = var.alteryx_worker_ami_id == "" ? 1 : 0
 
   most_recent = true
   name_regex  = "^alteryx-server-ami-${var.alteryx_worker_ami_version_pattern}$"
