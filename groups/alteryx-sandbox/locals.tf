@@ -6,6 +6,14 @@ locals {
   alteryx_ec2_data = data.vault_generic_secret.alteryx_ec2_data.data
   azure_dc_cidrs   = jsondecode(data.vault_generic_secret.azure_dc_cidrs.data["cidrs"])
 
+  account_ids_secrets   = jsondecode(data.vault_generic_secret.account_ids.data_json)
+
+  alteryx_server_ami_id        = var.alteryx_server_ami_id == "" ? data.aws_ami.alteryx_server_ami[0].id : var.alteryx_server_ami_id
+  alteryx_server_ami_owner_id  = local.account_ids_secrets["development"]
+
+  alteryx_worker_ami_id        = var.alteryx_worker_ami_id == "" ? data.aws_ami.alteryx_worker_ami[0].id : var.alteryx_worker_ami_id
+  alteryx_worker_ami_owner_id  = local.account_ids_secrets["development"]
+
   kms_keys_data          = data.vault_generic_secret.kms_keys.data
   security_kms_keys_data = data.vault_generic_secret.security_kms_keys.data
   logs_kms_key_id        = local.kms_keys_data["logs"]

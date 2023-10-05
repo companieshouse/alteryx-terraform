@@ -59,3 +59,24 @@ data "aws_acm_certificate" "acm_cert" {
 data "aws_s3_bucket" "resources" {
   bucket = "${var.aws_account}.${var.aws_region}.resources.ch.gov.uk"
 }
+
+data "aws_ami" "alteryx_server_ami" {
+  count = var.alteryx_server_ami_id == "" ? 1 : 0
+
+  most_recent = true
+  name_regex  = "^alteryx-server-ami-${var.alteryx_server_ami_version_pattern}$"
+  owners      = [local.alteryx_server_ami_owner_id ]
+}
+
+data "aws_ami" "alteryx_worker_ami" {
+  count = var.alteryx_worker_ami_id == "" ? 1 : 0
+
+  most_recent = true
+  name_regex  = "^alteryx-server-ami-${var.alteryx_worker_ami_version_pattern}$"
+  owners      = [local.alteryx_worker_ami_owner_id ]
+}
+
+data "vault_generic_secret" "account_ids" {
+  path = "aws-accounts/account-ids"
+}
+
