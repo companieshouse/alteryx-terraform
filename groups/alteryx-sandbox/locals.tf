@@ -8,10 +8,10 @@ locals {
 
   account_ids_secrets   = jsondecode(data.vault_generic_secret.account_ids.data_json)
 
-  alteryx_server_ami_id        = var.alteryx_server_ami_id == "" ? data.aws_ami.alteryx_server_ami[0].id : var.alteryx_server_ami_id
+  alteryx_server_ami_id        = var.alteryx_server_ami == "" ? data.aws_ami.alteryx_server_ami[0].id : var.alteryx_server_ami
   alteryx_server_ami_owner_id  = local.account_ids_secrets["development"]
 
-  alteryx_worker_ami_id        = var.alteryx_worker_ami_id == "" ? data.aws_ami.alteryx_worker_ami[0].id : var.alteryx_worker_ami_id
+  alteryx_worker_ami_id        = var.alteryx_worker_ami == "" ? data.aws_ami.alteryx_worker_ami[0].id : var.alteryx_worker_ami
   alteryx_worker_ami_owner_id  = local.account_ids_secrets["development"]
 
   kms_keys_data          = data.vault_generic_secret.kms_keys.data
