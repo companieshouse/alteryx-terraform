@@ -31,7 +31,7 @@ module "alteryx_server_ec2_security_group" {
       to_port     = 5986
       protocol    = "tcp"
       description = "Ansible Access"
-      cidr_blocks = join(",", local.internal_cidrs)
+      cidr_blocks = join(",", local.internal_cidrs, local.concourse_cidrs)
     }
   ]
 

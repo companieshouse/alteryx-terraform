@@ -5,6 +5,7 @@ locals {
   internal_cidrs   = values(data.vault_generic_secret.internal_cidrs.data)
   alteryx_ec2_data = data.vault_generic_secret.alteryx_ec2_data.data
   azure_dc_cidrs   = jsondecode(data.vault_generic_secret.azure_dc_cidrs.data["cidrs"])
+  concourse_cidrs   = jsondecode(data.vault_generic_secret.concourse_cidrs.data["cidrs"])
 
   account_ids_secrets   = jsondecode(data.vault_generic_secret.account_ids.data_json)
 
