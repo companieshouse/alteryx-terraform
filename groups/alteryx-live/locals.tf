@@ -6,7 +6,7 @@ locals {
   alteryx_ec2_data = data.vault_generic_secret.alteryx_ec2_data.data
   azure_dc_cidrs   = jsondecode(data.vault_generic_secret.azure_dc_cidrs.data["cidrs"])
   concourse_cidrs   = jsondecode(data.vault_generic_secret.concourse_cidrs.data["cidrs"])
-
+  ansible_cidr_blocks = join(",", "${local.internal_cidrs}","${local.concourse_cidrs}")
   account_ids_secrets   = jsondecode(data.vault_generic_secret.account_ids.data_json)
 
   alteryx_server_ami_id        = var.alteryx_server_ami == "" ? data.aws_ami.alteryx_server_ami[0].id : var.alteryx_server_ami
