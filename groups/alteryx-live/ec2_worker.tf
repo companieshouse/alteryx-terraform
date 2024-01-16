@@ -68,7 +68,7 @@ module "alteryx_worker_ec2" {
   count = var.alteryx_worker_instance_count
 
   name              = "${var.application}-${var.application_environment}-worker"
-  ami               = var.alteryx_worker_ami
+  ami               = var.alteryx_worker_ami_id
   instance_type     = var.alteryx_worker_instance_type
   key_name          = aws_key_pair.alteryx_keypair.key_name
   monitoring        = var.alteryx_worker_detailed_monitoring

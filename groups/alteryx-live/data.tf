@@ -10,7 +10,7 @@ data "aws_subnet_ids" "alteryx" {
   vpc_id = data.aws_vpc.vpc.id
   filter {
     name   = "tag:Name"
-    values = ["sub-alteryx-*"]
+    values = [local.alteryx_subnets_pattern]
   }
 }
 
@@ -31,9 +31,41 @@ data "vault_generic_secret" "azure_dc_cidrs" {
   path = "applications/${var.aws_account}-${var.aws_region}/${var.application}/azure_dc"
 }
 
-data "vault_generic_secret" "concourse_cidrs" {
-  path = "applications/${var.aws_account}-${var.aws_region}/${var.application}/concourse"
+data "vault_generic_secret" "vpc" {
+  path = "aws-accounts/network/shared-services/vpc_name"
 }
+
+data "vault_generic_secret" "automation_subnets" {
+  path = "aws-accounts/network/shared-services/automation_subnets_pattern"
+}
+
+data "vault_generic_secret" "alteryx_subnets" {
+  path = "aws-accounts/network/shared-services/alteryx_subnets_pattern"
+}
+
+data "aws_vpc" "automation" {
+
+  filter {
+    name   = "tag:Name"
+    values = [local.vpc_name]
+  }
+}
+
+data "aws_subnet_ids" "automation" {
+
+  vpc_id = data.aws_vpc.automation.id
+
+  filter {
+    name   = "tag:Name"
+    values = [local.automation_subnet]
+  }
+}
+
+data "aws_subnet" "automation" {
+  for_each = data.aws_subnet_ids.automation.ids
+  id = each.value
+}
+
 
 data "aws_kms_key" "ebs" {
   key_id = "alias/${var.account}/${var.region}/ebs"
@@ -65,7 +97,7 @@ data "aws_s3_bucket" "resources" {
 }
 
 data "aws_ami" "alteryx_server_ami" {
-  count = var.alteryx_server_ami == "" ? 1 : 0
+  count = var.alteryx_server_ami_id == "" ? 1 : 0
 
   most_recent = true
   name_regex  = "^win2019-base-${var.alteryx_server_ami_version_pattern}$"
@@ -73,7 +105,7 @@ data "aws_ami" "alteryx_server_ami" {
 }
 
 data "aws_ami" "alteryx_worker_ami" {
-  count = var.alteryx_worker_ami == "" ? 1 : 0
+  count = var.alteryx_worker_ami_id == "" ? 1 : 0
 
   most_recent = true
   name_regex  = "^win2019-base-${var.alteryx_worker_ami_version_pattern}$"

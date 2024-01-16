@@ -116,7 +116,7 @@ variable "alteryx_server_instance_count" {
   type        = string
 }
 
-variable "alteryx_server_ami" {
+variable "alteryx_server_ami_id" {
   default     = ""
   type        = string
   description = "ID of the AMI to use for alteryxlication server.This will take precedence if provided"
@@ -175,7 +175,7 @@ variable "alteryx_worker_instance_count" {
 }
 
 
-variable "alteryx_worker_ami" {
+variable "alteryx_worker_ami_id" {
 default     = ""
   type        = string
   description = "ID of the AMI to use for alteryxlication worker. This will take precedence if provided"

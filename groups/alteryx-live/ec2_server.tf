@@ -80,7 +80,7 @@ module "alteryx_server_ec2" {
   count = var.alteryx_server_instance_count
 
   name              = "${var.application}-${var.application_environment}-server"
-  ami               = var.alteryx_server_ami
+  ami               = var.alteryx_server_ami_id
   instance_type     = var.alteryx_server_instance_type
   key_name          = aws_key_pair.alteryx_keypair.key_name
   monitoring        = var.alteryx_server_detailed_monitoring
