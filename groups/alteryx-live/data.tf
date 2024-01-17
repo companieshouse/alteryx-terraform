@@ -32,19 +32,18 @@ data "vault_generic_secret" "azure_dc_cidrs" {
 }
 
 data "vault_generic_secret" "vpc" {
-  path = "aws-accounts/network/shared-services/vpc_name"
+  path = "applications/${var.aws_account}-${var.aws_region}/${var.application}/vpc_name"
 }
 
 data "vault_generic_secret" "automation_subnets" {
-  path = "aws-accounts/network/shared-services/automation_subnets_pattern"
+  path = "applications/${var.aws_account}-${var.aws_region}/${var.application}/automation_subnets_pattern"
 }
 
 data "vault_generic_secret" "alteryx_subnets" {
-  path = "aws-accounts/network/shared-services/alteryx_subnets_pattern"
+  path = "applications/${var.aws_account}-${var.aws_region}/${var.application}/alteryx_subnets_pattern"
 }
 
 data "aws_vpc" "automation" {
-
   filter {
     name   = "tag:Name"
     values = [local.vpc_name]
@@ -52,7 +51,6 @@ data "aws_vpc" "automation" {
 }
 
 data "aws_subnet_ids" "automation" {
-
   vpc_id = data.aws_vpc.automation.id
 
   filter {
