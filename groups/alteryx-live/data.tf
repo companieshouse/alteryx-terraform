@@ -32,7 +32,7 @@ data "vault_generic_secret" "azure_dc_cidrs" {
 }
 
 data "vault_generic_secret" "vpc" {
-  path = "applications/${var.aws_account}-${var.aws_region}/${var.application}/vpc_name"
+  path = "aws-accounts/network/shared-services/vpc_name"
 }
 
 data "vault_generic_secret" "automation_subnets" {
