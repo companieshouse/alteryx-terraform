@@ -23,24 +23,8 @@ data "vault_generic_secret" "internal_cidrs" {
   path = "aws-accounts/network/internal_cidr_ranges"
 }
 
-data "vault_generic_secret" "alteryx_ec2_data" {
-  path = "applications/${var.aws_account}-${var.aws_region}/${var.application}/ec2"
-}
-
-data "vault_generic_secret" "azure_dc_cidrs" {
-  path = "applications/${var.aws_account}-${var.aws_region}/${var.application}/azure_dc"
-}
-
-data "vault_generic_secret" "vpc" {
-  path = "aws-accounts/network/shared-services/vpc_name"
-}
-
-data "vault_generic_secret" "automation_subnets" {
-  path = "applications/${var.aws_account}-${var.aws_region}/${var.application}/automation_subnets_pattern"
-}
-
-data "vault_generic_secret" "alteryx_subnets" {
-  path = "applications/${var.aws_account}-${var.aws_region}/${var.application}/alteryx_subnets_pattern"
+data "vault_generic_secret" "secrets" {
+  path = "applications/${var.aws_account}-${var.aws_region}/${var.application}/${var.repository_name}"
 }
 
 data "aws_vpc" "automation" {
@@ -113,4 +97,3 @@ data "aws_ami" "alteryx_worker_ami" {
 data "vault_generic_secret" "account_ids" {
   path = "aws-accounts/account-ids"
 }
-

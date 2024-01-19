@@ -214,3 +214,9 @@ variable "alteryx_worker_cw_logs" {
   description = "Map of log file information; used to create log groups, IAM permissions and passed to the application to configure remote logging"
   default     = {}
 }
+
+variable "repository_name" {
+  default     = "alteryx-terraform"
+  description = "The name of the repository in which we're operating"
+  type        = string
+}
