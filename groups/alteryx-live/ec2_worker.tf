@@ -25,6 +25,13 @@ module "alteryx_worker_ec2_security_group" {
       protocol    = "tcp"
       description = "WMI Access"
       cidr_blocks = join(",", local.azure_dc_cidrs)
+    },
+    {
+      from_port   = 5986
+      to_port     = 5986
+      protocol    = "tcp"
+      description = "Ansible Access"
+      cidr_blocks = local.ansible_cidr_blocks
     }
   ]
 
@@ -43,7 +50,7 @@ resource "aws_cloudwatch_log_group" "alteryx_worker" {
 
   name              = each.value["log_group_name"]
   retention_in_days = lookup(each.value, "log_group_retention", var.default_log_group_retention_in_days)
-  kms_key_id        = lookup(each.value, "kms_key_id", local.logs_kms_key_arn)
+  kms_key_id        = lookup(each.value, "kms_key_id", local.logs_kms_key_id)
 
   tags = merge(
     local.default_tags,
@@ -61,7 +68,7 @@ module "alteryx_worker_ec2" {
   count = var.alteryx_worker_instance_count
 
   name              = "${var.application}-${var.application_environment}-worker"
-  ami               = var.alteryx_worker_ami
+  ami               = var.alteryx_worker_ami_id
   instance_type     = var.alteryx_worker_instance_type
   key_name          = aws_key_pair.alteryx_keypair.key_name
   monitoring        = var.alteryx_worker_detailed_monitoring
@@ -105,4 +112,39 @@ module "alteryx_worker_ec2" {
       "BackupApp", var.application
     )
   )
+  
+  user_data = <<EOF
+<powershell>
+# https://www.packer.io/docs/builders/amazon/ebs
+
+Set-ExecutionPolicy Unrestricted -Scope LocalMachine -Force -ErrorAction Ignore
+
+# Don't set this before Set-ExecutionPolicy as it throws an error
+$ErrorActionPreference = "stop"
+
+# Remove HTTP listener
+Remove-Item -Path WSMan:\Localhost\listener\listener* -Recurse
+
+# Create a self-signed certificate to let ssl work
+$Cert = New-SelfSignedCertificate -CertstoreLocation Cert:\LocalMachine\My -DnsName "alteryx-sandbox-worker"
+New-Item -Path WSMan:\LocalHost\Listener -Transport HTTPS -Address * -CertificateThumbPrint $Cert.Thumbprint -Force
+
+# Configure WinRM
+cmd.exe /c winrm quickconfig -q
+cmd.exe /c winrm set "winrm/config" '@{MaxTimeoutms="1800000"}'
+cmd.exe /c winrm set "winrm/config/winrs" '@{MaxMemoryPerShellMB="1024"}'
+cmd.exe /c winrm set "winrm/config/service" '@{AllowUnencrypted="true"}'
+cmd.exe /c winrm set "winrm/config/client" '@{AllowUnencrypted="true"}'
+cmd.exe /c winrm set "winrm/config/service/auth" '@{Basic="true"}'
+cmd.exe /c winrm set "winrm/config/client/auth" '@{Basic="true"}'
+cmd.exe /c winrm set "winrm/config/service/auth" '@{CredSSP="true"}'
+cmd.exe /c winrm set "winrm/config/listener?Address=*+Transport=HTTPS" "@{Port=`"5986`";Hostname=`"alteryx-sandbox-worker`";CertificateThumbprint=`"$($Cert.Thumbprint)`"}"
+cmd.exe /c netsh advfirewall firewall set rule group="remote administration" new enable=yes
+
+cmd.exe /c net stop winrm
+cmd.exe /c sc config winrm start= auto
+cmd.exe /c net start winrm
+
+</powershell>
+EOF
 }
