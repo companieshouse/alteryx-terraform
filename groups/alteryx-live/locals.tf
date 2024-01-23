@@ -3,7 +3,7 @@
 # ------------------------------------------------------------------------
 locals {
   internal_cidrs               = values(data.vault_generic_secret.internal_cidrs.data)
-  alteryx_ec2_data             = local.secrets.public-key
+  alteryx_key                  = local.secrets.public-key
   azure_dc_cidrs               = jsondecode(local.secrets.azure_dc_cidrs)
   concourse_cidrs              = local.automation_subnet_cidrs
   ansible_cidr_blocks          = join(",", "${local.internal_cidrs}","${local.concourse_cidrs}")
