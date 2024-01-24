@@ -55,7 +55,7 @@ variable "application" {
 
 variable "application_environment" {
   type        = string
-  description = "The specific application environment e.g. alteryx-live"
+  description = "The specific application environment e.g. alteryx-sandbox"
 }
 
 variable "environment" {
