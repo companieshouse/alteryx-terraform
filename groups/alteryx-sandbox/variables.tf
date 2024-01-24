@@ -55,7 +55,7 @@ variable "application" {
 
 variable "application_environment" {
   type        = string
-  description = "The specific application environment e.g. alteryx-sandbox"
+  description = "The specific application environment e.g. alteryx-live"
 }
 
 variable "environment" {
@@ -116,7 +116,7 @@ variable "alteryx_server_instance_count" {
   type        = string
 }
 
-variable "alteryx_server_ami" {
+variable "alteryx_server_ami_id" {
   default     = ""
   type        = string
   description = "ID of the AMI to use for alteryxlication server.This will take precedence if provided"
@@ -175,7 +175,7 @@ variable "alteryx_worker_instance_count" {
 }
 
 
-variable "alteryx_worker_ami" {
+variable "alteryx_worker_ami_id" {
   default     = ""
   type        = string
   description = "ID of the AMI to use for alteryxlication worker. This will take precedence if provided"
@@ -213,4 +213,10 @@ variable "alteryx_worker_cw_logs" {
   type        = map(any)
   description = "Map of log file information; used to create log groups, IAM permissions and passed to the application to configure remote logging"
   default     = {}
+}
+
+variable "repository_name" {
+  default     = "alteryx-terraform"
+  description = "The name of the repository in which we're operating"
+  type        = string
 }

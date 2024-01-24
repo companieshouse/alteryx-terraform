@@ -1,18 +1,20 @@
 # ------------------------------------------------------------------------
-# Locals
+# Locals 
 # ------------------------------------------------------------------------
 locals {
-  internal_cidrs   = values(data.vault_generic_secret.internal_cidrs.data)
-  alteryx_ec2_data = data.vault_generic_secret.alteryx_ec2_data.data
-  azure_dc_cidrs   = jsondecode(data.vault_generic_secret.azure_dc_cidrs.data["cidrs"])
-  concourse_cidrs   = jsondecode(data.vault_generic_secret.concourse_cidrs.data["cidrs"])
-
-  account_ids_secrets   = jsondecode(data.vault_generic_secret.account_ids.data_json)
-
-  alteryx_server_ami_id        = var.alteryx_server_ami == "" ? data.aws_ami.alteryx_server_ami[0].id : var.alteryx_server_ami
+  internal_cidrs               = values(data.vault_generic_secret.internal_cidrs.data)
+  alteryx_key                  = local.secrets.public-key
+  azure_dc_cidrs               = jsondecode(local.secrets.azure_dc_cidrs)
+  concourse_cidrs              = local.automation_subnet_cidrs
+  ansible_cidr_blocks          = join(",", "${local.internal_cidrs}","${local.concourse_cidrs}")
+  account_ids_secrets          = jsondecode(data.vault_generic_secret.account_ids.data_json)
+  vpc_name                     = local.secrets.vpc_name
+  automation_subnet            = local.secrets.automation_subnets_pattern
+  alteryx_subnets_pattern      = local.secrets.alteryx_subnets_pattern
+  alteryx_server_ami_id        = var.alteryx_server_ami_id == "" ? data.aws_ami.alteryx_server_ami[0].id : var.alteryx_server_ami_id
   alteryx_server_ami_owner_id  = local.account_ids_secrets["shared-services"]
-
-  alteryx_worker_ami_id        = var.alteryx_worker_ami == "" ? data.aws_ami.alteryx_worker_ami[0].id : var.alteryx_worker_ami
+  secrets                      = data.vault_generic_secret.secrets.data
+  alteryx_worker_ami_id        = var.alteryx_worker_ami_id == "" ? data.aws_ami.alteryx_worker_ami[0].id : var.alteryx_worker_ami_id
   alteryx_worker_ami_owner_id  = local.account_ids_secrets["shared-services"]
 
   kms_keys_data          = data.vault_generic_secret.kms_keys.data
@@ -32,6 +34,13 @@ locals {
 
   alteryx_worker_cw_logs    = { for log, map in var.alteryx_worker_cw_logs : log => merge(map, { "log_group_name" = "${var.application}-${var.application_environment}-worker-${log}" }) }
   alteryx_worker_log_groups = compact([for log, map in local.alteryx_worker_cw_logs : lookup(map, "log_group_name", "")])
+
+  automation_subnets = values(data.aws_subnet.automation)
+
+  automation_subnet_cidrs = values(zipmap(
+    local.automation_subnets.*.availability_zone,
+    local.automation_subnets.*.cidr_block
+  ))
   default_tags = {
     Terraform   = "true"
     Application = upper(var.application)
