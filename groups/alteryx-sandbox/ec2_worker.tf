@@ -5,7 +5,7 @@ module "alteryx_worker_ec2_security_group" {
   source  = "terraform-aws-modules/security-group/aws"
   version = "~> 3.0"
 
-  name        = "sgr-${var.application}-${var.application_environment}-server"
+  name        = "sgr-${var.application}-${var.application_environment}-worker"
   description = "Security group for the ${var.application_environment} ${var.application} Worker EC2"
   vpc_id      = data.aws_vpc.vpc.id
 
