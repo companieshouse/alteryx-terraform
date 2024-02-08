@@ -5,7 +5,7 @@ module "alteryx_worker_ec2_security_group" {
   source  = "terraform-aws-modules/security-group/aws"
   version = "~> 3.0"
 
-  name        = "sgr-${var.application}-${var.application_environment}-server"
+  name        = "sgr-${var.application}-${var.application_environment}-worker"
   description = "Security group for the ${var.application_environment} ${var.application} Worker EC2"
   vpc_id      = data.aws_vpc.vpc.id
 
@@ -31,7 +31,7 @@ module "alteryx_worker_ec2_security_group" {
       to_port     = 5986
       protocol    = "tcp"
       description = "Ansible Access"
-      cidr_blocks = join(",", local.internal_cidrs, local.concourse_cidrs)
+      cidr_blocks = local.ansible_cidr_blocks
     }
   ]
 
@@ -68,7 +68,7 @@ module "alteryx_worker_ec2" {
   count = var.alteryx_worker_instance_count
 
   name              = "${var.application}-${var.application_environment}-worker"
-  ami               = var.alteryx_worker_ami
+  ami               = var.alteryx_worker_ami_id
   instance_type     = var.alteryx_worker_instance_type
   key_name          = aws_key_pair.alteryx_keypair.key_name
   monitoring        = var.alteryx_worker_detailed_monitoring
