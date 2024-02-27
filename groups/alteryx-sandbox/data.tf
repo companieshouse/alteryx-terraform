@@ -23,6 +23,10 @@ data "vault_generic_secret" "internal_cidrs" {
   path = "aws-accounts/network/internal_cidr_ranges"
 }
 
+data "vault_generic_secret" "sns_email" {
+  path = "applications/${var.aws_account}-${var.aws_region}/${var.application}/sns/"
+}
+
 data "vault_generic_secret" "secrets" {
   path = "applications/${var.aws_account}-${var.aws_region}/${var.application}/${var.repository_name}"
 }
