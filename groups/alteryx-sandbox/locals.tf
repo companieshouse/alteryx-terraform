@@ -25,7 +25,11 @@ locals {
 
   security_s3_data            = data.vault_generic_secret.security_s3_buckets.data
   session_manager_bucket_name = local.security_s3_data["session-manager-bucket-name"]
+  
 
+  sns_email_secret = data.vault_generic_secret.sns_email.data
+  sns_email = local.sns_email_secret["email"]
+  
   internal_fqdn = "${replace(var.aws_account, "-", "")}.aws.internal"
 
   #For each log map passed, add an extra kv for the log group name
