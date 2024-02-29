@@ -6,7 +6,7 @@ locals {
   alteryx_key                 = local.secrets.public-key
   azure_dc_cidrs              = jsondecode(local.secrets.azure_dc_cidrs)
   concourse_cidrs             = local.automation_subnet_cidrs
-  ansible_cidr_blocks         = join(",", "${local.internal_cidrs}", "${local.concourse_cidrs}")
+  ansible_cidr_blocks         = join(",", "${local.internal_cidrs}","${local.concourse_cidrs}")
   account_ids_secrets         = jsondecode(data.vault_generic_secret.account_ids.data_json)
   vpc_name                    = local.secrets.vpc_name
   automation_subnet           = local.secrets.automation_subnets_pattern
