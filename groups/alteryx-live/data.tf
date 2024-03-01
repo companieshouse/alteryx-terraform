@@ -27,6 +27,10 @@ data "vault_generic_secret" "secrets" {
   path = "applications/${var.aws_account}-${var.aws_region}/${var.application}/${var.repository_name}"
 }
 
+data "vault_generic_secret" "sns_email" {
+  path = "applications/${var.aws_account}-${var.aws_region}/${var.application}/sns/"
+}
+
 data "aws_vpc" "automation" {
   filter {
     name   = "tag:Name"
@@ -45,7 +49,7 @@ data "aws_subnet_ids" "automation" {
 
 data "aws_subnet" "automation" {
   for_each = data.aws_subnet_ids.automation.ids
-  id = each.value
+  id       = each.value
 }
 
 
@@ -83,7 +87,7 @@ data "aws_ami" "alteryx_server_ami" {
 
   most_recent = true
   name_regex  = "^win2019-base-${var.alteryx_server_ami_version_pattern}$"
-  owners      = [local.alteryx_server_ami_owner_id ]
+  owners      = [local.alteryx_server_ami_owner_id]
 }
 
 data "aws_ami" "alteryx_worker_ami" {
@@ -91,7 +95,7 @@ data "aws_ami" "alteryx_worker_ami" {
 
   most_recent = true
   name_regex  = "^win2019-base-${var.alteryx_worker_ami_version_pattern}$"
-  owners      = [local.alteryx_worker_ami_owner_id ]
+  owners      = [local.alteryx_worker_ami_owner_id]
 }
 
 data "vault_generic_secret" "account_ids" {
