@@ -170,5 +170,5 @@ cmd.exe /c net start winrm
 
 </powershell>
 EOF
-  
+
 }

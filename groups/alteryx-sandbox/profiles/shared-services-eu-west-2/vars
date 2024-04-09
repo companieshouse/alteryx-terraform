@@ -11,6 +11,7 @@ region  = "euw2"
 application             = "alteryx"
 application_environment = "sandbox"
 environment             = "shared-services"
+application_subnets     = ["10.44.18.128/26","10.44.18.192/26","10.44.18.64/26"]
 
 ##############################
 # Alteryx Components details #
@@ -46,5 +47,7 @@ alteryx_worker_cw_logs = {
   }
 }
 
+# ALB
+ssl_certificate_name = "*.companieshouse.gov.uk"
 
 

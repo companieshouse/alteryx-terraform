@@ -49,7 +49,7 @@ data "aws_subnet_ids" "automation" {
 
 data "aws_subnet" "automation" {
   for_each = data.aws_subnet_ids.automation.ids
-  id = each.value
+  id       = each.value
 }
 
 data "aws_kms_key" "ebs" {
@@ -73,9 +73,18 @@ data "vault_generic_secret" "security_s3_buckets" {
   path = "aws-accounts/security/s3"
 }
 
-data "aws_acm_certificate" "acm_cert" {
-  domain = var.domain_name
+# data "aws_acm_certificate" "acm_cert" {
+#   domain = var.domain_name
+# }
+
+data "aws_acm_certificate" "certificate" {
+  count = local.create_ssl_certificate ? 0 : 1
+
+  domain      = var.ssl_certificate_name
+  statuses    = ["ISSUED"]
+  most_recent = true
 }
+
 
 data "aws_s3_bucket" "resources" {
   bucket = "${var.aws_account}.${var.aws_region}.resources.ch.gov.uk"
@@ -86,7 +95,7 @@ data "aws_ami" "alteryx_server_ami" {
 
   most_recent = true
   name_regex  = "^win2019-base-${var.alteryx_server_ami_version_pattern}$"
-  owners      = [local.alteryx_server_ami_owner_id ]
+  owners      = [local.alteryx_server_ami_owner_id]
 }
 
 data "aws_ami" "alteryx_worker_ami" {
@@ -94,7 +103,7 @@ data "aws_ami" "alteryx_worker_ami" {
 
   most_recent = true
   name_regex  = "^win2019-base-${var.alteryx_worker_ami_version_pattern}$"
-  owners      = [local.alteryx_worker_ami_owner_id ]
+  owners      = [local.alteryx_worker_ami_owner_id]
 }
 
 data "vault_generic_secret" "account_ids" {

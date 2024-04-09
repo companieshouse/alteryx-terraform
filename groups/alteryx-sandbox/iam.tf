@@ -32,8 +32,8 @@ module "alteryx_server_profile" {
       ]
     },
     {
-      sid     = "S3AllowListGet"
-      effect  = "Allow"
+      sid    = "S3AllowListGet"
+      effect = "Allow"
       resources = [
         "${data.aws_s3_bucket.resources.arn}",
         "${data.aws_s3_bucket.resources.arn}/*"
@@ -80,8 +80,8 @@ module "alteryx_worker_profile" {
       ]
     },
     {
-      sid     = "S3AllowListGet"
-      effect  = "Allow"
+      sid    = "S3AllowListGet"
+      effect = "Allow"
       resources = [
         "${data.aws_s3_bucket.resources.arn}",
         "${data.aws_s3_bucket.resources.arn}/*"
