@@ -73,10 +73,6 @@ data "vault_generic_secret" "security_s3_buckets" {
   path = "aws-accounts/security/s3"
 }
 
-# data "aws_acm_certificate" "acm_cert" {
-#   domain = var.domain_name
-# }
-
 data "aws_acm_certificate" "certificate" {
   count = local.create_ssl_certificate ? 0 : 1
 
