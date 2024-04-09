@@ -52,6 +52,18 @@ data "aws_subnet" "automation" {
   id       = each.value
 }
 
+data "aws_subnets" "subnets" {
+  filter {
+    name   = "vpc-id"
+    values = [data.aws_vpc.vpc.id]
+  }
+
+  filter {
+    name   = "tag:Name"
+    values = [local.alteryx_subnets_pattern]
+  }
+}
+
 data "aws_kms_key" "ebs" {
   key_id = "alias/${var.account}/${var.region}/ebs"
 }
@@ -80,7 +92,6 @@ data "aws_acm_certificate" "certificate" {
   statuses    = ["ISSUED"]
   most_recent = true
 }
-
 
 data "aws_s3_bucket" "resources" {
   bucket = "${var.aws_account}.${var.aws_region}.resources.ch.gov.uk"

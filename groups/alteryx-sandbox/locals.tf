@@ -40,11 +40,19 @@ locals {
   alteryx_worker_log_groups = compact([for log, map in local.alteryx_worker_cw_logs : lookup(map, "log_group_name", "")])
 
   automation_subnets = values(data.aws_subnet.automation)
+  alteryx_subnets = values(data.aws_subnet.alteryx)
 
   automation_subnet_cidrs = values(zipmap(
     local.automation_subnets.*.availability_zone,
     local.automation_subnets.*.cidr_block
   ))
+
+ alteryx_subnet_cidrs = values(zipmap(
+    local.alteryx_subnets.*.availability_zone,
+    local.alteryx_subnets.*.cidr_block
+  ))
+
+  # alteryx_subnet_cidrs = values(local.alteryx_subnets.*.cidr_block)
 
   dns_zone_private_zone  = data.aws_route53_zone.private_zone
   dns_zone_name          = data.aws_route53_zone.private_zone.name
