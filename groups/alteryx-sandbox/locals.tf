@@ -3,8 +3,12 @@
 # ------------------------------------------------------------------------
 locals {
   internal_cidrs              = values(data.vault_generic_secret.internal_cidrs.data)
+  # internal_cidrs2             = data.aws_ec2_managed_prefix_list.admin
   alteryx_key                 = local.secrets.public-key
+  
   azure_dc_cidrs              = jsondecode(local.secrets.azure_dc_cidrs)
+  azure_cidrs                 = join(",", local.azure_dc_cidrs)
+  
   concourse_cidrs             = local.automation_subnet_cidrs
   ansible_cidr_blocks         = join(",", "${local.internal_cidrs}", "${local.concourse_cidrs}")
   account_ids_secrets         = jsondecode(data.vault_generic_secret.account_ids.data_json)

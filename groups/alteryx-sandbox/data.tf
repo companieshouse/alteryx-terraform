@@ -6,8 +6,8 @@ data "aws_vpc" "vpc" {
   }
 }
 
-data "aws_subnet_ids" "alteryx" {
-  vpc_id = data.aws_vpc.vpc.id
+data "aws_subnets" "alteryx" {
+  # vpc_id = data.aws_vpc.vpc.id
   filter {
     name   = "tag:Name"
     values = [local.alteryx_subnets_pattern]
@@ -15,7 +15,7 @@ data "aws_subnet_ids" "alteryx" {
 }
 
 data "aws_subnet" "alteryx" {
-  for_each = data.aws_subnet_ids.alteryx.ids
+  for_each = toset(data.aws_subnets.alteryx.ids)
   id       = each.value
 }
 
@@ -38,8 +38,8 @@ data "aws_vpc" "automation" {
   }
 }
 
-data "aws_subnet_ids" "automation" {
-  vpc_id = data.aws_vpc.automation.id
+data "aws_subnets" "automation" {
+  # vpc_id = data.aws_vpc.automation.id
 
   filter {
     name   = "tag:Name"
@@ -48,7 +48,7 @@ data "aws_subnet_ids" "automation" {
 }
 
 data "aws_subnet" "automation" {
-  for_each = data.aws_subnet_ids.automation.ids
+  for_each = toset(data.aws_subnets.automation.ids)
   id       = each.value
 }
 
@@ -117,3 +117,10 @@ data "vault_generic_secret" "account_ids" {
   path = "aws-accounts/account-ids"
 }
 
+data "aws_ec2_managed_prefix_list" "admin" {
+  name = "administration-cidr-ranges"
+}
+
+data "aws_ec2_managed_prefix_list" "ci" {
+  name = "shared-services-management-cidrs"
+}

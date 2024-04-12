@@ -1,6 +1,7 @@
 # ------------------------------------------------------------------------------
 # Applicatoin Security Group and rules
 # ------------------------------------------------------------------------------
+
 module "alteryx_server_ec2_security_group" {
   source  = "terraform-aws-modules/security-group/aws"
   version = "~> 3.0"
