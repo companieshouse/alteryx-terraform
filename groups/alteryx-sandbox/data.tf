@@ -7,7 +7,7 @@ data "aws_vpc" "vpc" {
 }
 
 data "aws_subnets" "alteryx" {
-  # vpc_id = data.aws_vpc.vpc.id
+
   filter {
     name   = "tag:Name"
     values = [local.alteryx_subnets_pattern]
@@ -39,7 +39,6 @@ data "aws_vpc" "automation" {
 }
 
 data "aws_subnets" "automation" {
-  # vpc_id = data.aws_vpc.automation.id
 
   filter {
     name   = "tag:Name"
