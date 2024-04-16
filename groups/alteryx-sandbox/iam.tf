@@ -1,8 +1,8 @@
 module "alteryx_server_profile" {
-  source = "git@github.com:companieshouse/terraform-modules//aws/instance_profile?ref=tags/1.0.59"
+  source = "git@github.com:companieshouse/terraform-modules//aws/instance_profile?ref=tags/1.0.260"
 
   name       = "${var.application}-${var.application_environment}-server-app-profile"
-  enable_SSM = true
+  enable_ssm = true
   kms_key_refs = [
     "alias/${var.account}/${var.region}/ebs",
     local.ssm_kms_key_id
@@ -32,8 +32,8 @@ module "alteryx_server_profile" {
       ]
     },
     {
-      sid     = "S3AllowListGet"
-      effect  = "Allow"
+      sid    = "S3AllowListGet"
+      effect = "Allow"
       resources = [
         "${data.aws_s3_bucket.resources.arn}",
         "${data.aws_s3_bucket.resources.arn}/*"
@@ -47,10 +47,10 @@ module "alteryx_server_profile" {
 }
 
 module "alteryx_worker_profile" {
-  source = "git@github.com:companieshouse/terraform-modules//aws/instance_profile?ref=tags/1.0.59"
+  source = "git@github.com:companieshouse/terraform-modules//aws/instance_profile?ref=tags/1.0.260"
 
   name       = "${var.application}-${var.application_environment}-worker-app-profile"
-  enable_SSM = true
+  enable_ssm = true
   kms_key_refs = [
     "alias/${var.account}/${var.region}/ebs",
     local.ssm_kms_key_id
@@ -80,8 +80,8 @@ module "alteryx_worker_profile" {
       ]
     },
     {
-      sid     = "S3AllowListGet"
-      effect  = "Allow"
+      sid    = "S3AllowListGet"
+      effect = "Allow"
       resources = [
         "${data.aws_s3_bucket.resources.arn}",
         "${data.aws_s3_bucket.resources.arn}/*"

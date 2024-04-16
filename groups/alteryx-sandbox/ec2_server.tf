@@ -1,6 +1,7 @@
 # ------------------------------------------------------------------------------
 # Applicatoin Security Group and rules
 # ------------------------------------------------------------------------------
+
 module "alteryx_server_ec2_security_group" {
   source  = "terraform-aws-modules/security-group/aws"
   version = "~> 3.0"
@@ -86,7 +87,8 @@ module "alteryx_server_ec2" {
   monitoring        = var.alteryx_server_detailed_monitoring
   get_password_data = var.alteryx_server_get_password_data
   vpc_security_group_ids = [
-    module.alteryx_server_ec2_security_group.this_security_group_id
+    module.alteryx_server_ec2_security_group.this_security_group_id,
+    aws_security_group.ec2.id
   ]
   subnet_id            = [for sub in data.aws_subnet.alteryx : sub.id][count.index + 1]
   iam_instance_profile = module.alteryx_server_profile.aws_iam_instance_profile.name
@@ -170,5 +172,5 @@ cmd.exe /c net start winrm
 
 </powershell>
 EOF
-  
+
 }
