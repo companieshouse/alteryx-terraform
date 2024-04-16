@@ -4,7 +4,7 @@ resource "aws_lb" "alteryx_sandbox" {
   internal           = true
   load_balancer_type = "application"
   security_groups    = [aws_security_group.ec2_alb.id]
-  subnets            = local.alteryx_subnet_cidrs
+  subnets            = local.alteryx_subnet_a_id
   
   tags = {
     Environment = var.environment
