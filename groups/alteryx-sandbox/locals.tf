@@ -3,12 +3,9 @@
 # ------------------------------------------------------------------------
 locals {
   internal_cidrs = values(data.vault_generic_secret.internal_cidrs.data)
-  # internal_cidrs2             = data.aws_ec2_managed_prefix_list.admin
   alteryx_key = local.secrets.public-key
-
   azure_dc_cidrs = jsondecode(local.secrets.azure_dc_cidrs)
   azure_cidrs    = join(",", local.azure_dc_cidrs)
-
   concourse_cidrs             = local.automation_subnet_cidrs
   ansible_cidr_blocks         = join(",", "${local.internal_cidrs}", "${local.concourse_cidrs}")
   account_ids_secrets         = jsondecode(data.vault_generic_secret.account_ids.data_json)
@@ -20,8 +17,7 @@ locals {
   secrets                     = data.vault_generic_secret.secrets.data
   alteryx_worker_ami_id       = var.alteryx_worker_ami_id == "" ? data.aws_ami.alteryx_worker_ami[0].id : var.alteryx_worker_ami_id
   alteryx_worker_ami_owner_id = local.account_ids_secrets["shared-services"]
-  alteryx_subnet_id         = [for o in data.aws_subnet.alteryx : o.id if o.tags["Name"] == "sub-alteryx-a" || o.tags["Name"] == "sub-alteryx-b"]
-  
+  alteryx_subnet_id           = [for o in data.aws_subnet.alteryx : o.id if o.tags["Name"] == "sub-alteryx-a" || o.tags["Name"] == "sub-alteryx-b"]
   kms_keys_data               = data.vault_generic_secret.kms_keys.data
   security_kms_keys_data      = data.vault_generic_secret.security_kms_keys.data
   logs_kms_key_id             = local.kms_keys_data["logs"]
@@ -56,8 +52,6 @@ locals {
     local.alteryx_subnets.*.availability_zone,
     local.alteryx_subnets.*.cidr_block
   ))
-
-  # alteryx_subnet_cidrs = values(local.alteryx_subnets.*.cidr_block)
 
   dns_zone_private_zone  = data.aws_route53_zone.private_zone
   dns_zone_name          = data.aws_route53_zone.private_zone.name

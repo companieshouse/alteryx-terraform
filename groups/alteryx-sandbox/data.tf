@@ -96,6 +96,14 @@ data "aws_s3_bucket" "resources" {
   bucket = "${var.aws_account}.${var.aws_region}.resources.ch.gov.uk"
 }
 
+data "aws_instance" "server_instance_id" {
+
+  filter {
+    name   = "tag:AlteryxRole"
+    values = ["alteryx-sandbox-server"]
+  }
+}
+
 data "aws_ami" "alteryx_server_ami" {
   count = var.alteryx_server_ami_id == "" ? 1 : 0
 
@@ -123,3 +131,5 @@ data "aws_ec2_managed_prefix_list" "admin" {
 data "aws_ec2_managed_prefix_list" "ci" {
   name = "shared-services-management-cidrs"
 }
+
+
