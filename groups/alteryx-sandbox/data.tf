@@ -123,5 +123,3 @@ data "aws_ec2_managed_prefix_list" "admin" {
 data "aws_ec2_managed_prefix_list" "ci" {
   name = "shared-services-management-cidrs"
 }
-
-
