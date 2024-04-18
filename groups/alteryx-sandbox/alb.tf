@@ -5,7 +5,7 @@ resource "aws_lb" "alteryx_sandbox" {
   load_balancer_type = "application"
   security_groups    = [aws_security_group.ec2_alb.id]
   subnets            = local.alteryx_subnet_id
-  
+
   tags = {
     Environment = var.environment
     Service     = var.application
@@ -19,7 +19,7 @@ resource "aws_lb_target_group" "alteryx_sandbox_web" {
   protocol    = "HTTP"
   target_type = "ip"
   vpc_id      = data.aws_vpc.vpc.id
-  
+
   health_check {
     healthy_threshold   = 2
     unhealthy_threshold = 2
@@ -33,7 +33,7 @@ resource "aws_lb_target_group" "alteryx_sandbox_web" {
 
 resource "aws_lb_target_group_attachment" "alteryx_sandbox_web" {
   target_group_arn = aws_lb_target_group.alteryx_sandbox_web.arn
-  target_id = module.alteryx_server_ec2[0].id[0]
+  target_id        = module.alteryx_server_ec2[0].id[0]
   port             = 80
 }
 
