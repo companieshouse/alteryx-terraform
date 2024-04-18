@@ -33,7 +33,7 @@ resource "aws_lb_target_group" "alteryx_sandbox_web" {
 
 resource "aws_lb_target_group_attachment" "alteryx_sandbox_web" {
   target_group_arn = aws_lb_target_group.alteryx_sandbox_web.arn
-  target_id = data.aws_instance.server_instance_id.id
+  target_id = module.alteryx_server_ec2[0].id[0]
   port             = 80
 }
 
