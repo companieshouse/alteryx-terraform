@@ -7,7 +7,7 @@ resource "aws_security_group" "ec2" {
   vpc_id      = data.aws_vpc.vpc.id
 }
 
-resource "aws_vpc_security_group_ingress_rule" "ec2_wmiadmin" {  
+resource "aws_vpc_security_group_ingress_rule" "ec2_wmiadmin" {
   description       = "WMI Access"
   security_group_id = aws_security_group.ec2.id
   prefix_list_id    = data.aws_ec2_managed_prefix_list.admin.id
@@ -37,7 +37,6 @@ resource "aws_vpc_security_group_ingress_rule" "ec2_wmi_azure" {
 }
 
 resource "aws_vpc_security_group_ingress_rule" "ec2_ansible" {
-
   description       = "Ansible Access"
   security_group_id = aws_security_group.ec2.id
   prefix_list_id    = data.aws_ec2_managed_prefix_list.ci.id
@@ -47,7 +46,6 @@ resource "aws_vpc_security_group_ingress_rule" "ec2_ansible" {
 }
 
 resource "aws_vpc_security_group_ingress_rule" "ec2_rdptcp" {
-
   description       = "Remote Desktop"
   security_group_id = aws_security_group.ec2.id
   prefix_list_id    = data.aws_ec2_managed_prefix_list.admin.id
@@ -57,7 +55,6 @@ resource "aws_vpc_security_group_ingress_rule" "ec2_rdptcp" {
 }
 
 resource "aws_vpc_security_group_ingress_rule" "ec2_rdpudp" {
-
   description       = "Remote Desktop"
   security_group_id = aws_security_group.ec2.id
   prefix_list_id    = data.aws_ec2_managed_prefix_list.admin.id
@@ -67,7 +64,6 @@ resource "aws_vpc_security_group_ingress_rule" "ec2_rdpudp" {
 }
 
 resource "aws_vpc_security_group_ingress_rule" "ec2_http" {
-
   description                  = "http Access"
   security_group_id            = aws_security_group.ec2.id
   referenced_security_group_id = aws_security_group.ec2_alb.id
@@ -87,7 +83,6 @@ resource "aws_security_group" "ec2_alb" {
 }
 
 resource "aws_vpc_security_group_ingress_rule" "httpsalb" {
-
   description       = "alb Access"
   security_group_id = aws_security_group.ec2_alb.id
   prefix_list_id    = data.aws_ec2_managed_prefix_list.admin.id
@@ -97,11 +92,19 @@ resource "aws_vpc_security_group_ingress_rule" "httpsalb" {
 }
 
 resource "aws_vpc_security_group_ingress_rule" "httpalb" {
-
   description       = "alb Access"
   security_group_id = aws_security_group.ec2_alb.id
   prefix_list_id    = data.aws_ec2_managed_prefix_list.admin.id
   ip_protocol       = "tcp"
   from_port         = 80
   to_port           = 80
+}
+
+resource "aws_vpc_security_group_egress_rule" "instancealb" {
+  description                  = "HTTP to instance"
+  security_group_id            = aws_security_group.ec2_alb.id
+  referenced_security_group_id = aws_security_group.ec2.id
+  ip_protocol                  = "tcp"
+  from_port                    = 80
+  to_port                      = 80
 }

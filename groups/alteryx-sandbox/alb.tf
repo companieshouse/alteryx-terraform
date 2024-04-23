@@ -1,6 +1,6 @@
 # Load Balancer
 resource "aws_lb" "alteryx_sandbox" {
-  name               = "${var.environment}-${var.application}"
+  name               = "alb-${var.application}-${var.application_environment}"
   internal           = true
   load_balancer_type = "application"
   security_groups    = [aws_security_group.ec2_alb.id]
@@ -24,10 +24,10 @@ resource "aws_lb_target_group" "alteryx_sandbox_web" {
     healthy_threshold   = 2
     unhealthy_threshold = 2
     timeout             = "5"
-    path                = "/"
+    path                = "/gallery/api/status/ping/"
     protocol            = "HTTP"
     interval            = 30
-    matcher             = "200-399"
+    matcher             = "200"
   }
 }
 
