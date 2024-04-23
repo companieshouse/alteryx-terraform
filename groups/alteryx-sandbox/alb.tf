@@ -24,10 +24,10 @@ resource "aws_lb_target_group" "alteryx_sandbox_web" {
     healthy_threshold   = 2
     unhealthy_threshold = 2
     timeout             = "5"
-    path                = "/gallery/api/status/ping"
+    path                = "/gallery/api/status/ping/"
     protocol            = "HTTP"
     interval            = 30
-    matcher             = "200-399"
+    matcher             = "200"
   }
 }
 
