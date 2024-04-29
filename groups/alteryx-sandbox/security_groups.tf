@@ -73,7 +73,7 @@ resource "aws_vpc_security_group_ingress_rule" "ec2_http" {
 }
 
 # ------------------------------------------------------------------------------
-# nlb Security Group and rules
+# NLB Security Group and rules
 # ------------------------------------------------------------------------------
 
 resource "aws_security_group" "ec2_nlb" {
