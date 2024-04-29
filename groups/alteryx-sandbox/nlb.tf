@@ -70,7 +70,7 @@ resource "aws_acm_certificate_validation" "certificate" {
 resource "aws_lb_listener" "alteryx_sandbox_listener_443" {
   load_balancer_arn = aws_lb.alteryx_sandbox.arn
   port              = "443"
-  protocol          = "HTTPS"
+  protocol          = "TLS"
   certificate_arn   = local.ssl_certificate_arn
   ssl_policy        = "ELBSecurityPolicy-TLS13-1-2-2021-06"
   default_action {
