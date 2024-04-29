@@ -91,15 +91,6 @@ resource "aws_vpc_security_group_ingress_rule" "httpsalb" {
   to_port           = 443
 }
 
-resource "aws_vpc_security_group_ingress_rule" "httpalb" {
-  description       = "alb Access"
-  security_group_id = aws_security_group.ec2_alb.id
-  prefix_list_id    = data.aws_ec2_managed_prefix_list.admin.id
-  ip_protocol       = "tcp"
-  from_port         = 80
-  to_port           = 80
-}
-
 resource "aws_vpc_security_group_egress_rule" "instancealb" {
   description                  = "HTTP to instance"
   security_group_id            = aws_security_group.ec2_alb.id

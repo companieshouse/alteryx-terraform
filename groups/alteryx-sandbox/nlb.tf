@@ -1,4 +1,3 @@
-# Load Balancer
 resource "aws_lb" "alteryx_sandbox" {
   name               = "alb-${var.application}-${var.application_environment}"
   internal           = true
@@ -12,11 +11,10 @@ resource "aws_lb" "alteryx_sandbox" {
   }
 }
 
-# Target configuration for HTTP / port 80
 resource "aws_lb_target_group" "alteryx_sandbox_web" {
   name        = "${var.application}-${var.application_environment}-web"
   port        = 80
-  protocol    = "HTTP"
+  protocol    = "TLS"
   target_type = "ip"
   vpc_id      = data.aws_vpc.vpc.id
 
@@ -37,7 +35,6 @@ resource "aws_lb_target_group_attachment" "alteryx_sandbox_web" {
   port             = 80
 }
 
-# Configuration for Certificate
 resource "aws_acm_certificate" "certificate" {
   count = local.create_ssl_certificate ? 1 : 0
 
@@ -80,20 +77,5 @@ resource "aws_lb_listener" "alteryx_sandbox_listener_443" {
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.alteryx_sandbox_web.arn
-  }
-}
-
-# Create a listener resource to redirect HTTP to HTTPS
-resource "aws_lb_listener" "alteryx_sandbox_listener_80_redirect" {
-  load_balancer_arn = aws_lb.alteryx_sandbox.arn
-  port              = "80"
-  protocol          = "HTTP"
-  default_action {
-    type = "redirect"
-    redirect {
-      port        = "443"
-      protocol    = "HTTPS"
-      status_code = "HTTP_301"
-    }
   }
 }
