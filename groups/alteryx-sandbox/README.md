@@ -1,7 +1,5 @@
 # aws-alteryx-sandbox-terraform
 
-Worker code commented out but can be reinstated if a worker node is required for Sandbox environment.
-
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
