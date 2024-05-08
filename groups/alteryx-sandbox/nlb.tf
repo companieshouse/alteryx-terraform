@@ -14,7 +14,7 @@ resource "aws_lb" "alteryx_sandbox" {
 resource "aws_lb_target_group" "alteryx_sandbox_web" {
   name        = "${var.application}-${var.application_environment}-web"
   port        = 80
-  protocol    = "TLS"
+  protocol    = "TCP"
   target_type = "ip"
   vpc_id      = data.aws_vpc.vpc.id
 
