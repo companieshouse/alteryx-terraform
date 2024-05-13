@@ -46,5 +46,7 @@ alteryx_worker_cw_logs = {
   }
 }
 
+# ALB
+ssl_certificate_name = "*.companieshouse.gov.uk"
 
 
