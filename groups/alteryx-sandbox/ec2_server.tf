@@ -1,63 +1,6 @@
 # ------------------------------------------------------------------------------
 # Applicatoin Security Group and rules
 # ------------------------------------------------------------------------------
-
-module "alteryx_server_ec2_security_group" {
-  source  = "terraform-aws-modules/security-group/aws"
-  version = "~> 3.0"
-
-  name        = "sgr-${var.application}-${var.application_environment}-server"
-  description = "Security group for the ${var.application_environment} ${var.application} Server EC2"
-  vpc_id      = data.aws_vpc.vpc.id
-
-  ingress_cidr_blocks = local.internal_cidrs
-  ingress_rules       = ["http-80-tcp", "https-443-tcp", "rdp-tcp", "rdp-udp"]
-  ingress_with_cidr_blocks = [
-    {
-      from_port   = 135
-      to_port     = 135
-      protocol    = "tcp"
-      description = "WMI Access"
-      cidr_blocks = join(",", local.azure_dc_cidrs)
-    },
-    {
-      from_port   = 49152
-      to_port     = 65535
-      protocol    = "tcp"
-      description = "WMI Access"
-      cidr_blocks = join(",", local.azure_dc_cidrs)
-    },
-    {
-      from_port   = 5986
-      to_port     = 5986
-      protocol    = "tcp"
-      description = "Ansible Access"
-      cidr_blocks = local.ansible_cidr_blocks
-    }
-  ]
-
-  computed_ingress_with_source_security_group_id = [
-    {
-      rule                     = "http-80-tcp"
-      source_security_group_id = module.alteryx_worker_ec2_security_group.this_security_group_id
-    },
-    {
-      rule                     = "https-443-tcp"
-      source_security_group_id = module.alteryx_worker_ec2_security_group.this_security_group_id
-    }
-  ]
-  number_of_computed_ingress_with_source_security_group_id = 2
-
-  egress_rules = ["all-all"]
-
-  tags = merge(
-    local.default_tags,
-    map(
-      "ServiceTeam", "Data",
-    )
-  )
-}
-
 resource "aws_cloudwatch_log_group" "alteryx_server" {
   for_each = local.alteryx_server_cw_logs
 
@@ -87,7 +30,6 @@ module "alteryx_server_ec2" {
   monitoring        = var.alteryx_server_detailed_monitoring
   get_password_data = var.alteryx_server_get_password_data
   vpc_security_group_ids = [
-    module.alteryx_server_ec2_security_group.this_security_group_id,
     aws_security_group.ec2.id
   ]
   subnet_id            = [for sub in data.aws_subnet.alteryx : sub.id][count.index + 1]
