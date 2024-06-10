@@ -86,12 +86,11 @@ resource "aws_vpc_security_group_ingress_rule" "ec2_http" {
 resource "aws_vpc_security_group_ingress_rule" "ec2_worker_api" {
   description                  = "Worker api access"
   security_group_id            = aws_security_group.ec2.id
-  referenced_security_group_id = module.alteryx_worker_ec2_security_group.this_security_group_id
+  referenced_security_group_id = aws_security_group.ec2_worker.id
   ip_protocol                  = "tcp"
   from_port                    = 80
   to_port                      = 80
 }
-
 
 resource "aws_vpc_security_group_egress_rule" "ec2_egress" {
   security_group_id = aws_security_group.ec2.id

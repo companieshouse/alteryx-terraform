@@ -27,7 +27,6 @@ module "alteryx_worker_ec2" {
   monitoring        = var.alteryx_worker_detailed_monitoring
   get_password_data = var.alteryx_worker_get_password_data
   vpc_security_group_ids = [
-    module.alteryx_worker_ec2_security_group.this_security_group_id,
     aws_security_group.ec2_worker.id
   ]
   subnet_id            = [for sub in data.aws_subnet.alteryx : sub.id][count.index + 1]
