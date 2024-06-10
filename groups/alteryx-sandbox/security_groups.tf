@@ -130,15 +130,6 @@ resource "aws_vpc_security_group_ingress_rule" "ec2_worker_rdptcp" {
   to_port           = 3389
 }
 
-resource "aws_vpc_security_group_ingress_rule" "ec2_worker_rdpudp" {
-  description       = "Remote Desktop"
-  security_group_id = aws_security_group.ec2_worker.id
-  prefix_list_id    = data.aws_ec2_managed_prefix_list.admin.id
-  ip_protocol       = "udp"
-  from_port         = 3389
-  to_port           = 3389
-}
-
 resource "aws_vpc_security_group_ingress_rule" "ec2_worker_wmi_azure_dcom" {
   for_each = toset(local.azure_dc_cidrs)
 
