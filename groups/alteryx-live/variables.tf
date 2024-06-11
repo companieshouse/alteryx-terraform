@@ -220,3 +220,12 @@ variable "repository_name" {
   description = "The name of the repository in which we're operating"
   type        = string
 }
+
+# ------------------------------------------------------------------------------
+# Alteryx Server ALB Variables
+# ------------------------------------------------------------------------------
+
+variable "ssl_certificate_name" {
+  type        = string
+  description = "The name of an existing ACM certificate to use for the ELB SSL listener. Setting this disables certificate creation"
+}

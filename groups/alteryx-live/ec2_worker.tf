@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Applicatoin Security Group and rules
+# Applicatoin Security Group and rules Live
 # ------------------------------------------------------------------------------
 module "alteryx_worker_ec2_security_group" {
   source  = "terraform-aws-modules/security-group/aws"
@@ -76,10 +76,10 @@ module "alteryx_worker_ec2" {
   vpc_security_group_ids = [
     module.alteryx_worker_ec2_security_group.this_security_group_id
   ]
-  subnet_id            = [for sub in data.aws_subnet.alteryx : sub.id][count.index]
+  subnet_id            = [for sub in data.aws_subnet.alteryx : sub.id][count.index + 1]
   iam_instance_profile = module.alteryx_worker_profile.aws_iam_instance_profile.name
   ebs_optimized        = var.ebs_optimized
-  private_ip           = cidrhost([for sub in data.aws_subnet.alteryx : sub.cidr_block][count.index], 6)
+  private_ip           = cidrhost([for sub in data.aws_subnet.alteryx : sub.cidr_block][count.index + 1], 5)
 
   root_block_device = [
     {
