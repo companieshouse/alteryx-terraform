@@ -74,12 +74,13 @@ module "alteryx_worker_ec2" {
   monitoring        = var.alteryx_worker_detailed_monitoring
   get_password_data = var.alteryx_worker_get_password_data
   vpc_security_group_ids = [
-    module.alteryx_worker_ec2_security_group.this_security_group_id
+    module.alteryx_worker_ec2_security_group.this_security_group_id,
+    aws_security_group.ec2_worker.id
   ]
-  subnet_id            = [for sub in data.aws_subnet.alteryx : sub.id][count.index + 1]
+  subnet_id            = [for sub in data.aws_subnet.alteryx : sub.id][count.index]
   iam_instance_profile = module.alteryx_worker_profile.aws_iam_instance_profile.name
   ebs_optimized        = var.ebs_optimized
-  private_ip           = cidrhost([for sub in data.aws_subnet.alteryx : sub.cidr_block][count.index + 1], 5)
+  private_ip           = var.alteryx_worker_private_ip
 
   root_block_device = [
     {

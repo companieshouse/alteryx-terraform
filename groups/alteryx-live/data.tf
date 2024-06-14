@@ -10,7 +10,7 @@ data "aws_subnets" "alteryx" {
 
   filter {
     name   = "tag:Name"
-    values = [local.alteryx_subnets_pattern]
+    values = ["sub-alteryx-c"]
   }
 }
 
