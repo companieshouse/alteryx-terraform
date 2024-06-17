@@ -10,7 +10,7 @@ data "aws_subnets" "alteryx" {
 
   filter {
     name   = "tag:Name"
-    values = ["sub-alteryx-c"]
+    values = [local.alteryx_subnet]
   }
 }
 
@@ -21,6 +21,10 @@ data "aws_subnet" "alteryx" {
 
 data "vault_generic_secret" "internal_cidrs" {
   path = "aws-accounts/network/internal_cidr_ranges"
+}
+
+data "vault_generic_secret" "network" {
+  path = "applications/${var.aws_account}-${var.aws_region}/${var.application}/network/"
 }
 
 data "vault_generic_secret" "sns_email" {

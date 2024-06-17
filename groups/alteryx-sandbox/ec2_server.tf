@@ -35,7 +35,7 @@ module "alteryx_server_ec2" {
   subnet_id            = [for sub in data.aws_subnet.alteryx : sub.id][count.index]
   iam_instance_profile = module.alteryx_server_profile.aws_iam_instance_profile.name
   ebs_optimized        = var.ebs_optimized
-  private_ip           = var.alteryx_server_private_ip
+  private_ip           = local.alteryx_server_ip
 
   root_block_device = [
     {
